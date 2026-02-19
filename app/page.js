@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ShoppingBag, Zap, ShieldCheck, ArrowRight, ChevronLeft, ChevronRight, Star, Heart } from 'lucide-react';
 import { Smartphone, MonitorPlay, Sofa, Watch, Mail, Facebook, Twitter, Instagram, Percent } from 'lucide-react';
+import Link from 'next/link';
 // --- Carousel Data ---
 const carouselBanners = [
   {
@@ -246,6 +247,7 @@ export default function LandingPage() {
                   className="min-w-[240px] md:min-w-[280px] snap-start flex flex-col rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden relative group cursor-pointer"
                 >
                   {/* Heart / Wishlist icon */}
+                  <Link href={`/products/${product.id}`}>
                   <button className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-slate-900/40 backdrop-blur-sm text-slate-300 hover:text-red-500 hover:bg-white/90 transition-all">
                     <Heart size={18} />
                   </button>
@@ -284,6 +286,7 @@ export default function LandingPage() {
                       </div>
                     </div>
                   </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>
