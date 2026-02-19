@@ -1,3 +1,4 @@
+"use client";
 export const dynamic = "force-dynamic";
 import { getProducts } from "@/lib/api";
 import Navbar from "@/components/Navbar";
