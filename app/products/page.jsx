@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProducts } from "@/lib/api";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
