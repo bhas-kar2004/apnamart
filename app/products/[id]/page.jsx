@@ -1,13 +1,12 @@
+import AddToCartButton from "@/components/AddToCartButton";
 import { getProductById } from "@/lib/api";
 import { Star, Truck, ShieldCheck, ShoppingCart, Zap, ChevronRight, RotateCcw } from 'lucide-react';
-import Link from "next/link"; // Assuming Next.js based on your routing
+import Link from "next/link";
 
 export default async function ProductDetails({ params }) {
-  // Await the params object (Next.js 15 requirement)
   const { id } = await params;   
   const product = await getProductById(id);
 
-  // Fallback rating just in case your API doesn't provide it
   const rating = product.rating?.rate || 4.5;
   const reviewCount = product.rating?.count || 128;
 
@@ -36,7 +35,6 @@ export default async function ProductDetails({ params }) {
           {/* LEFT: Product Image Gallery */}
           <div className="flex flex-col gap-4">
             <div className="relative aspect-square w-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-8 flex items-center justify-center overflow-hidden group">
-              {/* Product Image (White background to make product pop) */}
               <div className="absolute inset-4 bg-white rounded-2xl flex items-center justify-center p-8 shadow-2xl">
                 <img 
                   src={product.image} 
@@ -45,21 +43,11 @@ export default async function ProductDetails({ params }) {
                 />
               </div>
             </div>
-            
-            {/* Thumbnail Placeholders (Optional: If you have multiple images later) */}
-            {/* <div className="grid grid-cols-4 gap-4 hidden sm:grid">
-              {[1, 2, 3, 4].map((thumb) => (
-                <div key={thumb} className="aspect-square rounded-xl border border-white/10 bg-white/5 p-2 cursor-pointer hover:border-orange-500/50 transition-colors">
-                  <div className="w-full h-full bg-white/10 rounded-lg animate-pulse" />
-                </div>
-              ))}
-            </div> */}
           </div>
 
           {/* RIGHT: Product Information */}
           <div className="flex flex-col">
             
-            {/* Category & Title */}
             <div className="mb-2">
               <span className="text-sm font-bold tracking-wider text-orange-400 uppercase">
                 {product.category}
@@ -69,7 +57,6 @@ export default async function ProductDetails({ params }) {
               {product.title}
             </h1>
 
-            {/* Ratings & Reviews */}
             <div className="flex items-center gap-4 mb-6">
               <div className="flex items-center gap-1 bg-green-600/20 text-green-400 px-2.5 py-1 rounded-md text-sm font-bold">
                 {rating} <Star size={14} className="fill-green-400" />
@@ -79,19 +66,17 @@ export default async function ProductDetails({ params }) {
               </span>
             </div>
 
-            {/* Price Area */}
             <div className="mb-8">
               <div className="flex items-end gap-3 mb-2">
-                <span className="text-4xl font-extrabold text-white">${product.price}</span>
+                <span className="text-4xl font-extrabold text-white">₹{product.price}</span>
                 <span className="text-xl text-slate-500 line-through mb-1">
-                  ${(product.price * 1.3).toFixed(2)}
+                  ₹{(product.price * 1.3).toFixed(2)}
                 </span>
                 <span className="text-orange-400 font-bold mb-1 text-sm">30% Off</span>
               </div>
               <p className="text-xs text-slate-400">Inclusive of all taxes</p>
             </div>
 
-            {/* Description */}
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-white mb-2">Product Details</h3>
               <p className="text-slate-300 leading-relaxed text-sm md:text-base">
@@ -99,7 +84,6 @@ export default async function ProductDetails({ params }) {
               </p>
             </div>
 
-            {/* Trust Badges (Flipkart Style) */}
             <div className="grid grid-cols-3 gap-4 mb-8 py-6 border-y border-white/10">
               <div className="flex flex-col items-center text-center gap-2">
                 <div className="h-10 w-10 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center">
@@ -121,15 +105,7 @@ export default async function ProductDetails({ params }) {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-              <button className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-4 text-lg font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-white/30">
-                <ShoppingCart size={20} /> Add to Cart
-              </button>
-              <button className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:shadow-orange-500/40">
-                <Zap size={20} className="fill-white" /> Buy Now
-              </button>
-            </div>
+            <AddToCartButton product={product} />
 
           </div>
         </div>

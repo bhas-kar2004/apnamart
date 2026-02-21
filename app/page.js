@@ -1,9 +1,12 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ShoppingBag, Zap, ShieldCheck, ArrowRight, ChevronLeft, ChevronRight, Star, Heart } from 'lucide-react';
-import { Smartphone, MonitorPlay, Sofa, Watch, Mail, Facebook, Twitter, Instagram, Percent } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ShoppingBag, Zap, ShieldCheck, ArrowRight, ChevronLeft, ChevronRight, Star, Heart, Mail, Facebook, Twitter, Instagram, Percent } from 'lucide-react';
 import Link from 'next/link';
+
+// --- IMPORT YOUR NEW CATEGORY SECTION HERE ---
+import CategorySection from '@/components/CategorySection';
+
 // --- Carousel Data ---
 const carouselBanners = [
   {
@@ -133,12 +136,6 @@ export default function LandingPage() {
     exit: (direction) => ({ zIndex: 0, x: direction < 0 ? 1000 : -1000, opacity: 0 })
   };
 
-  const features = [
-    { icon: <Zap size={32} />, title: "Lightning Delivery", desc: "Get your products delivered across India in record time." },
-    { icon: <ShieldCheck size={32} />, title: "100% Secure", desc: "Premium quality guaranteed with secure, encrypted payments." },
-    { icon: <ShoppingBag size={32} />, title: "Exclusive Deals", desc: "Daily festive offers and unbeatable prices on top brands." }
-  ];
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white font-sans">
       
@@ -246,20 +243,19 @@ export default function LandingPage() {
                   whileHover={{ y: -8 }}
                   className="min-w-[240px] md:min-w-[280px] snap-start flex flex-col rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden relative group cursor-pointer"
                 >
-                  {/* Heart / Wishlist icon */}
                   <Link href={`/products/${product.id}`}>
+                  {/* Heart / Wishlist icon */}
                   <button className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-slate-900/40 backdrop-blur-sm text-slate-300 hover:text-red-500 hover:bg-white/90 transition-all">
                     <Heart size={18} />
                   </button>
 
-                  {/* Product Image Area (White background to match FakeStore API images) */}
+                  {/* Product Image Area */}
                   <div className="h-[200px] w-full bg-white flex items-center justify-center p-6 relative overflow-hidden">
                     <img 
                       src={product.image} 
                       alt={product.title} 
                       className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
                     />
-                    {/* Flipkart style discount tag */}
                     <div className="absolute bottom-0 left-0 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-tr-lg">
                       {product.discount}
                     </div>
@@ -293,81 +289,15 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* --- SHOP BY CATEGORY (BENTO GRID) --- */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.8 }}
-          className="w-full max-w-6xl mx-auto mt-24"
-        >
-          <div className="mb-8 flex items-end justify-between px-2">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
-                Shop by Category
-              </h2>
-              <p className="text-slate-400 text-sm mt-1">Curated collections for your lifestyle</p>
-            </div>
-          </div>
+        {/* --- THIS IS THE MAGIC FIX: WE ARE NOW USING THE COMPONENT --- */}
+        <CategorySection />
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 px-2">
-            {/* Large Featured Category */}
-            <motion.div whileHover={{ scale: 0.98 }} className="md:col-span-2 md:row-span-2 relative flex flex-col items-start justify-end p-8 rounded-3xl overflow-hidden group cursor-pointer h-[300px] md:h-auto min-h-[400px]">
-              <div className="absolute inset-0 bg-slate-900">
-                <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800&auto=format&fit=crop" alt="Mobiles" className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-40" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
-              </div>
-              <div className="relative z-10 w-full">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-xl bg-white/10 p-3 backdrop-blur-md border border-white/20">
-                  <Smartphone className="text-orange-400" size={28} />
-                </div>
-                <h3 className="text-3xl font-bold text-white mb-2">Smartphones</h3>
-                <p className="text-slate-300 mb-6">Latest models from top brands.</p>
-                <button className="flex items-center gap-2 text-sm font-bold text-orange-400 hover:text-orange-300 transition-colors">
-                  Explore <ArrowRight size={16} />
-                </button>
-              </div>
-            </motion.div>
-
-            {/* Top Right Box */}
-            <motion.div whileHover={{ scale: 0.98 }} className="md:col-span-2 relative flex flex-col items-start justify-end p-6 rounded-3xl overflow-hidden group cursor-pointer h-[250px]">
-              <div className="absolute inset-0 bg-slate-900">
-                <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=800&auto=format&fit=crop" alt="Electronics" className="w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-30" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/20 to-transparent" />
-              </div>
-              <div className="relative z-10 flex items-end justify-between w-full">
-                <div>
-                  <div className="mb-3 inline-flex items-center justify-center rounded-xl bg-white/10 p-2.5 backdrop-blur-md border border-white/20">
-                    <MonitorPlay className="text-blue-400" size={24} />
-                  </div>
-                  <h3 className="text-xl font-bold text-white">Laptops & PCs</h3>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Bottom Right Split 1 */}
-            <motion.div whileHover={{ scale: 0.95 }} className="relative flex flex-col items-start justify-end p-6 rounded-3xl overflow-hidden group cursor-pointer h-[200px] border border-white/10 bg-white/5 backdrop-blur-md">
-               <div className="absolute top-4 right-4 text-white/20 group-hover:text-orange-400/50 transition-colors">
-                 <Sofa size={60} strokeWidth={1} />
-               </div>
-               <h3 className="text-lg font-bold text-white relative z-10">Home Decor</h3>
-               <p className="text-xs text-orange-400 font-semibold mt-1">Min 50% Off</p>
-            </motion.div>
-
-            {/* Bottom Right Split 2 */}
-            <motion.div whileHover={{ scale: 0.95 }} className="relative flex flex-col items-start justify-end p-6 rounded-3xl overflow-hidden group cursor-pointer h-[200px] border border-white/10 bg-white/5 backdrop-blur-md">
-               <div className="absolute top-4 right-4 text-white/20 group-hover:text-blue-400/50 transition-colors">
-                 <Watch size={60} strokeWidth={1} />
-               </div>
-               <h3 className="text-lg font-bold text-white relative z-10">Accessories</h3>
-               <p className="text-xs text-blue-400 font-semibold mt-1">Starting $19</p>
-            </motion.div>
-          </div>
-        </motion.div>
         {/* --- PROMOTIONAL BANNER --- */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}
           className="w-full max-w-6xl mx-auto mt-24 px-2"
         >
           <div className="relative w-full rounded-3xl border border-orange-500/30 bg-gradient-to-r from-orange-500/10 to-red-600/10 p-8 md:p-12 overflow-hidden backdrop-blur-lg flex flex-col md:flex-row items-center justify-between gap-8">
-            {/* Glowing orb behind the banner text */}
             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[300px] h-[300px] bg-orange-500/30 rounded-full blur-[80px] pointer-events-none" />
             
             <div className="relative z-10 flex-1 text-center md:text-left">
@@ -392,11 +322,11 @@ export default function LandingPage() {
         </motion.div>
         
       </main>
+
       {/* --- PREMIUM FOOTER --- */}
       <footer className="relative z-10 mt-32 border-t border-white/10 bg-slate-900/50 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            {/* Brand Info */}
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-red-500 font-bold text-white">
@@ -416,7 +346,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="text-white font-bold mb-6">Quick Links</h4>
               <ul className="space-y-4 text-sm text-slate-400">
@@ -427,18 +356,16 @@ export default function LandingPage() {
               </ul>
             </div>
 
-            {/* Categories */}
             <div>
               <h4 className="text-white font-bold mb-6">Top Categories</h4>
               <ul className="space-y-4 text-sm text-slate-400">
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Electronics & Gadgets</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Men's Fashion</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Home & Furniture</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Beauty & Grooming</a></li>
+                <li><Link href="/category/electronics" className="hover:text-orange-400 transition-colors">Electronics & Gadgets</Link></li>
+                <li><Link href="/category/men's clothing" className="hover:text-orange-400 transition-colors">Men's Fashion</Link></li>
+                <li><Link href="/category/women's clothing" className="hover:text-orange-400 transition-colors">Women's Fashion</Link></li>
+                <li><Link href="/category/jewelery" className="hover:text-orange-400 transition-colors">Jewelery</Link></li>
               </ul>
             </div>
 
-            {/* Newsletter */}
             <div>
               <h4 className="text-white font-bold mb-6">Stay in the loop</h4>
               <p className="text-sm text-slate-400 mb-4">Get special offers, free giveaways, and once-in-a-lifetime deals.</p>
